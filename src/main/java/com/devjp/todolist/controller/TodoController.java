@@ -32,6 +32,16 @@ public class TodoController {
         return ResponseEntity.badRequest().body("This name is not avaible");
     }
 
+    @GetMapping(path = "/findTask/{id}")
+    public ResponseEntity<?> findTask(@PathVariable Long id){
+        if(this.todoRepository.findById(id).isPresent()){
+            Task task = this.todoRepository.findById(id).get();
+            return ResponseEntity.ok(task);
+        }else{
+            return ResponseEntity.badRequest().body("This id not exist...");
+        }
+    }
+
     @PutMapping(path = "/update/{id}")
     public ResponseEntity<?> updateTask(@PathVariable Long id, @RequestBody Task task){
         if(this.todoRepository.existsById(id)){
